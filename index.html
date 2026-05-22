@@ -1,3 +1,5 @@
+Cole isso no `index.html` e dê **Commit**:
+
 ```html
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -5,141 +7,291 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Liga BraZuka</title>
-
 <style>
-
-body{
-    margin:0;
-    padding:0;
-    background:#0d0d0d;
-    color:white;
-    font-family:Arial, sans-serif;
-}
-
-header{
-    background:#111;
-    padding:20px;
-    text-align:center;
-    border-bottom:3px solid #00ff88;
-}
-
-header h1{
-    margin:0;
-    color:#00ff88;
-    font-size:35px;
-}
-
-.container{
-    padding:20px;
-}
-
-.card{
-    background:#1b1b1b;
-    padding:20px;
-    border-radius:15px;
-    margin-bottom:20px;
-    box-shadow:0 0 10px rgba(0,0,0,0.5);
-}
-
-.card h2{
-    color:#ffd700;
-}
-
-button{
-    background:#00ff88;
-    color:black;
-    border:none;
-    padding:12px 20px;
-    border-radius:10px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:15px;
-}
-
-table th{
-    background:#00ff88;
-    color:black;
-    padding:10px;
-}
-
-table td{
-    padding:10px;
-    border-bottom:1px solid #333;
-    text-align:center;
-}
-
-footer{
-    text-align:center;
-    padding:20px;
-    color:#777;
-}
-
+*{box-sizing:border-box}
+body{margin:0;background:#05070f;color:white;font-family:Arial}
+header{background:linear-gradient(90deg,#0047ff,#00b050,#ffd700);padding:20px;text-align:center}
+header h1{margin:0;color:white;font-size:34px}
+nav{display:flex;gap:8px;overflow:auto;background:#0d1220;padding:10px}
+nav button{background:#151c2e;color:white;border:1px solid #26324d;padding:10px;border-radius:10px}
+nav button:hover{background:#00b050;color:#000}
+.container{padding:15px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:15px}
+.card{background:#101827;border:1px solid #22304d;border-radius:16px;padding:15px;box-shadow:0 0 15px #000}
+h2{color:#ffd700;margin-top:0}
+input,select{width:100%;padding:12px;margin:6px 0;background:#05070f;color:white;border:1px solid #34415f;border-radius:10px}
+button{padding:11px 14px;border:0;border-radius:10px;background:#00b050;color:#001;font-weight:bold;margin:5px 0}
+.danger{background:#ff3b3b;color:white}
+.blue{background:#0047ff;color:white}
+table{width:100%;border-collapse:collapse;margin-top:10px}
+th{background:#00b050;color:#000;padding:9px}
+td{border-bottom:1px solid #26324d;padding:8px;text-align:center}
+.tag{display:inline-block;background:#0047ff;padding:5px 9px;border-radius:8px;margin:3px}
+.hidden{display:none}
+footer{text-align:center;color:#777;padding:25px}
 </style>
-
 </head>
 <body>
 
 <header>
-    <h1>🏆 Liga BraZuka</h1>
-    <p>Master Liga Online PES/eFootball</p>
+<h1>🏆 Liga BraZuka</h1>
+<p>Master Liga Online PES/eFootball</p>
 </header>
+
+<nav>
+<button onclick="show('dashboard')">Dashboard</button>
+<button onclick="show('times')">Times</button>
+<button onclick="show('jogadores')">Jogadores</button>
+<button onclick="show('mercado')">Mercado</button>
+<button onclick="show('partidas')">Partidas</button>
+<button onclick="show('artilharia')">Artilharia</button>
+<button onclick="show('admin')">Admin</button>
+</nav>
 
 <div class="container">
 
-    <div class="card">
-        <h2>📊 Classificação</h2>
+<section id="dashboard">
+<div class="grid">
+<div class="card">
+<h2>📊 Resumo</h2>
+<p>Times cadastrados: <b id="totalTimes">0</b></p>
+<p>Jogadores cadastrados: <b id="totalJogadores">0</b></p>
+<p>Mercado: <b style="color:#00ff88">ABERTO</b></p>
+</div>
 
-        <table>
-            <tr>
-                <th>Time</th>
-                <th>PTS</th>
-            </tr>
+<div class="card">
+<h2>🏆 Classificação</h2>
+<table id="tabelaClassificacao"></table>
+</div>
 
-            <tr>
-                <td>Barcelona</td>
-                <td>12</td>
-            </tr>
+<div class="card">
+<h2>💰 Últimas Transferências</h2>
+<div id="ultimasTransferencias"></div>
+</div>
+</div>
+</section>
 
-            <tr>
-                <td>Real Madrid</td>
-                <td>10</td>
-            </tr>
+<section id="times" class="hidden">
+<div class="card">
+<h2>➕ Cadastrar Time</h2>
+<input id="nomeTime" placeholder="Nome do time">
+<input id="tecnicoTime" placeholder="Nome do técnico">
+<input id="saldoTime" type="number" placeholder="Saldo inicial. Ex: 500">
+<button onclick="addTime()">Cadastrar Time</button>
+</div>
+<div class="grid" id="listaTimes"></div>
+</section>
 
-            <tr>
-                <td>Manchester City</td>
-                <td>9</td>
-            </tr>
+<section id="jogadores" class="hidden">
+<div class="card">
+<h2>⚽ Cadastrar Jogador</h2>
+<input id="nomeJogador" placeholder="Nome do jogador">
+<input id="posicaoJogador" placeholder="Posição. Ex: ATA, MEI, ZAG">
+<input id="overallJogador" type="number" placeholder="Overall">
+<input id="valorJogador" type="number" placeholder="Valor">
+<select id="timeJogador"></select>
+<button onclick="addJogador()">Cadastrar Jogador</button>
+</div>
+<div class="grid" id="listaJogadores"></div>
+</section>
 
-        </table>
-    </div>
+<section id="mercado" class="hidden">
+<div class="card">
+<h2>💰 Mercado de Transferências</h2>
+<select id="jogadorMercado"></select>
+<select id="compradorMercado"></select>
+<button onclick="comprarJogador()">Comprar Jogador</button>
+</div>
+<div class="card">
+<h2>📜 Histórico</h2>
+<div id="historicoMercado"></div>
+</div>
+</section>
 
-    <div class="card">
-        <h2>💰 Mercado de Transferências</h2>
+<section id="partidas" class="hidden">
+<div class="card">
+<h2>🎮 Registrar Partida</h2>
+<select id="timeCasa"></select>
+<input id="golsCasa" type="number" placeholder="Gols casa">
+<select id="timeFora"></select>
+<input id="golsFora" type="number" placeholder="Gols fora">
+<button onclick="registrarPartida()">Registrar Resultado</button>
+</div>
+<div class="card">
+<h2>📅 Resultados</h2>
+<div id="listaPartidas"></div>
+</div>
+</section>
 
-        <p>Neymar → Barcelona</p>
-        <p>Mbappé → Real Madrid</p>
+<section id="artilharia" class="hidden">
+<div class="card">
+<h2>⚽ Registrar Gol</h2>
+<select id="jogadorGol"></select>
+<input id="qtdGol" type="number" placeholder="Quantidade de gols">
+<button onclick="addGol()">Adicionar Gols</button>
+</div>
+<div class="card">
+<h2>🥇 Artilharia</h2>
+<table id="tabelaArtilharia"></table>
+</div>
+</section>
 
-        <button>Abrir Mercado</button>
-    </div>
-
-    <div class="card">
-        <h2>⚽ Artilharia</h2>
-
-        <p>1° Haaland - 10 gols</p>
-        <p>2° Mbappé - 8 gols</p>
-        <p>3° Vini Jr - 7 gols</p>
-    </div>
+<section id="admin" class="hidden">
+<div class="card">
+<h2>⚙️ Admin</h2>
+<button class="blue" onclick="popularDemo()">Adicionar dados exemplo</button>
+<button class="danger" onclick="resetar()">Apagar tudo</button>
+<p>Os dados ficam salvos no navegador/celular de quem cadastrou.</p>
+</div>
+</section>
 
 </div>
 
-<footer>
-    Liga BraZuka © 2026
-</footer>
+<footer>Liga BraZuka © 2026</footer>
+
+<script>
+let times = JSON.parse(localStorage.getItem('times')) || [];
+let jogadores = JSON.parse(localStorage.getItem('jogadores')) || [];
+let partidas = JSON.parse(localStorage.getItem('partidas')) || [];
+let mercado = JSON.parse(localStorage.getItem('mercado')) || [];
+
+function salvar(){
+localStorage.setItem('times',JSON.stringify(times));
+localStorage.setItem('jogadores',JSON.stringify(jogadores));
+localStorage.setItem('partidas',JSON.stringify(partidas));
+localStorage.setItem('mercado',JSON.stringify(mercado));
+render();
+}
+
+function show(id){
+document.querySelectorAll('section').forEach(s=>s.classList.add('hidden'));
+document.getElementById(id).classList.remove('hidden');
+render();
+}
+
+function addTime(){
+let nome=nomeTime.value.trim();
+if(!nome)return alert('Digite o nome do time');
+times.push({id:Date.now(),nome,tecnico:tecnicoTime.value,saldo:Number(saldoTime.value||500),pts:0,j:0,v:0,e:0,d:0,gp:0,gc:0});
+nomeTime.value=''; tecnicoTime.value=''; saldoTime.value='';
+salvar();
+}
+
+function addJogador(){
+let nome=nomeJogador.value.trim();
+if(!nome)return alert('Digite o nome do jogador');
+jogadores.push({id:Date.now(),nome,pos:posicaoJogador.value,ovr:Number(overallJogador.value||70),valor:Number(valorJogador.value||50),time:Number(timeJogador.value),gols:0});
+nomeJogador.value=''; posicaoJogador.value=''; overallJogador.value=''; valorJogador.value='';
+salvar();
+}
+
+function comprarJogador(){
+let jid=Number(jogadorMercado.value);
+let tid=Number(compradorMercado.value);
+let j=jogadores.find(x=>x.id===jid);
+let comprador=times.find(x=>x.id===tid);
+let vendedor=times.find(x=>x.id===j.time);
+if(!j||!comprador)return;
+if(comprador.saldo<j.valor)return alert('Saldo insuficiente');
+comprador.saldo-=j.valor;
+if(vendedor)vendedor.saldo+=j.valor;
+mercado.unshift(`${j.nome} foi contratado por ${comprador.nome} por $${j.valor}M`);
+j.time=tid;
+salvar();
+}
+
+function registrarPartida(){
+let c=times.find(x=>x.id==timeCasa.value);
+let f=times.find(x=>x.id==timeFora.value);
+let gc=Number(golsCasa.value); let gf=Number(golsFora.value);
+if(!c||!f||c.id===f.id)return alert('Escolha times diferentes');
+c.j++; f.j++; c.gp+=gc; c.gc+=gf; f.gp+=gf; f.gc+=gc;
+if(gc>gf){c.pts+=3;c.v++;f.d++}
+else if(gf>gc){f.pts+=3;f.v++;c.d++}
+else{c.pts++;f.pts++;c.e++;f.e++}
+partidas.unshift(`${c.nome} ${gc} x ${gf} ${f.nome}`);
+golsCasa.value=''; golsFora.value='';
+salvar();
+}
+
+function addGol(){
+let j=jogadores.find(x=>x.id==jogadorGol.value);
+if(!j)return;
+j.gols+=Number(qtdGol.value||1);
+qtdGol.value='';
+salvar();
+}
+
+function render(){
+totalTimes.innerText=times.length;
+totalJogadores.innerText=jogadores.length;
+
+let optionsTimes=times.map(t=>`<option value="${t.id}">${t.nome}</option>`).join('');
+timeJogador.innerHTML=optionsTimes;
+compradorMercado.innerHTML=optionsTimes;
+timeCasa.innerHTML=optionsTimes;
+timeFora.innerHTML=optionsTimes;
+
+let optionsJog=jogadores.map(j=>`<option value="${j.id}">${j.nome} - ${timeNome(j.time)} - $${j.valor}M</option>`).join('');
+jogadorMercado.innerHTML=optionsJog;
+jogadorGol.innerHTML=optionsJog;
+
+listaTimes.innerHTML=times.map(t=>`
+<div class="card">
+<h2>${t.nome}</h2>
+<p>Técnico: ${t.tecnico||'Sem técnico'}</p>
+<p>Saldo: $${t.saldo}M</p>
+<p><span class="tag">${t.pts} PTS</span><span class="tag">${t.v}V</span><span class="tag">${t.e}E</span><span class="tag">${t.d}D</span></p>
+</div>`).join('');
+
+listaJogadores.innerHTML=jogadores.map(j=>`
+<div class="card">
+<h2>${j.nome}</h2>
+<p>${j.pos} | OVR ${j.ovr}</p>
+<p>Time: ${timeNome(j.time)}</p>
+<p>Valor: $${j.valor}M | Gols: ${j.gols}</p>
+</div>`).join('');
+
+let classif=[...times].sort((a,b)=>b.pts-a.pts || (b.gp-b.gc)-(a.gp-a.gc));
+tabelaClassificacao.innerHTML='<tr><th>Time</th><th>PTS</th><th>J</th><th>SG</th></tr>'+classif.map(t=>`<tr><td>${t.nome}</td><td>${t.pts}</td><td>${t.j}</td><td>${t.gp-t.gc}</td></tr>`).join('');
+
+tabelaArtilharia.innerHTML='<tr><th>Jogador</th><th>Time</th><th>Gols</th></tr>'+[...jogadores].sort((a,b)=>b.gols-a.gols).map(j=>`<tr><td>${j.nome}</td><td>${timeNome(j.time)}</td><td>${j.gols}</td></tr>`).join('');
+
+historicoMercado.innerHTML=mercado.map(m=>`<p>${m}</p>`).join('');
+ultimasTransferencias.innerHTML=mercado.slice(0,5).map(m=>`<p>${m}</p>`).join('') || '<p>Nenhuma transferência ainda.</p>';
+listaPartidas.innerHTML=partidas.map(p=>`<p>${p}</p>`).join('') || '<p>Nenhuma partida registrada.</p>';
+}
+
+function timeNome(id){
+let t=times.find(x=>x.id===Number(id));
+return t?t.nome:'Sem time';
+}
+
+function popularDemo(){
+times=[
+{id:1,nome:'Barcelona',tecnico:'Admin 1',saldo:500,pts:0,j:0,v:0,e:0,d:0,gp:0,gc:0},
+{id:2,nome:'Real Madrid',tecnico:'Admin 2',saldo:500,pts:0,j:0,v:0,e:0,d:0,gp:0,gc:0},
+{id:3,nome:'Manchester City',tecnico:'Admin 3',saldo:500,pts:0,j:0,v:0,e:0,d:0,gp:0,gc:0}
+];
+jogadores=[
+{id:11,nome:'Neymar',pos:'PE',ovr:88,valor:90,time:1,gols:0},
+{id:12,nome:'Mbappé',pos:'ATA',ovr:93,valor:160,time:2,gols:0},
+{id:13,nome:'Haaland',pos:'ATA',ovr:92,valor:150,time:3,gols:0},
+{id:14,nome:'Vini Jr',pos:'PE',ovr:91,valor:140,time:2,gols:0}
+];
+partidas=[]; mercado=[];
+salvar();
+}
+
+function resetar(){
+if(confirm('Apagar todos os dados?')){
+times=[]; jogadores=[]; partidas=[]; mercado=[];
+salvar();
+}
+}
+
+render();
+</script>
 
 </body>
 </html>
